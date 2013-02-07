@@ -3,7 +3,7 @@
 Via rubygems.org:
 
 ```
-$ gem install twilio-ruby
+$ gem install cta-api
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ http://www.transitchicago.com/developers/traintracker.aspx
 
 ### Setup
 
-```
+``` ruby
 require 'cta-api'
 
 key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -26,7 +26,7 @@ key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
 
 ### Find Routes and Stops
 
-```
+``` ruby
 # list all available routes
 @tracker.routes
 
@@ -39,7 +39,7 @@ key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
 
 ### Find Vehicles
 
-```
+``` ruby
 # returns an array of vehicles that travel the given routes
 @tracker.vehicles_by_routes(["50", "52A"])
 
@@ -49,7 +49,7 @@ key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
 
 ### Get Predicted Arrival Times
 
-```
+``` ruby
 # get arrival times for a list of stop ids
 # note that the second argument is optional
 @tracker.predictions_by_stop_ids(["8751", "8752"], "50")
@@ -59,7 +59,7 @@ key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
 ```
 
 ### Get System Time
-```
+``` ruby
 @tracker.time
 ```
 
@@ -67,7 +67,7 @@ key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
 
 ### Setup
 
-```
+``` ruby
 require 'cta-api'
 
 key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
@@ -76,7 +76,7 @@ tracker = CTA::TrainTracker.new(key)
 
 ## Get a List of Stops and Stations
 
-```
+``` ruby
 # stops
 @tracker.stops
 
@@ -86,6 +86,6 @@ tracker = CTA::TrainTracker.new(key)
 
 ## Get Predicted Arrival Times
 
-```
+``` ruby
 @tracker.arrivals stop_id: "30106"
 ```

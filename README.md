@@ -74,7 +74,7 @@ key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 tracker = CTA::TrainTracker.new(key)
 ```
 
-## Get a List of Stops and Stations
+### Get a List of Stops and Stations
 
 ``` ruby
 # stops
@@ -84,7 +84,7 @@ tracker = CTA::TrainTracker.new(key)
 @tracker.stations
 ```
 
-## Get Predicted Arrival Times
+### Get Predicted Arrival Times
 
 ``` ruby
 @tracker.arrivals stop_id: "30106"

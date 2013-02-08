@@ -21,7 +21,7 @@ This gem allows you to access the Chicago Transit Authority API via Ruby. You ca
 require 'cta-api'
 
 key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
-@tracker = CTA::TrainTracker.new(key)
+@tracker = CTA::BusTracker.new(key)
 ```
 
 ### Find Routes and Stops

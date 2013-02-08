@@ -10,8 +10,8 @@ $ gem install cta-api
 
 This gem allows you to access the Chicago Transit Authority API via Ruby. You can track the real-time locations of all public transportation vehicles, including buses and trains. You can obtain API keys from the CTA website:
 
-http://www.transitchicago.com/developers/bustracker.aspx
-http://www.transitchicago.com/developers/traintracker.aspx
+* http://www.transitchicago.com/developers/bustracker.aspx
+* http://www.transitchicago.com/developers/traintracker.aspx
 
 ## Bus Tracker
 

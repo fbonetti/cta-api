@@ -1,7 +1,8 @@
 Gem::Specification.new do |s|
   s.name = 'cta-api'
-  s.version = '1.0.0'
+  s.version = '1.0.1'
   s.author = 'Frank Bonetti'
+  s.homepage = 'https://github.com/fbonetti/cta-api'
   s.date = '2013-02-02'
 
   s.license = 'MIT'
@@ -13,5 +14,6 @@ Gem::Specification.new do |s|
 
   s.require_paths = ['lib']
   s.files = Dir.glob("**/*").reject { |x| File.directory?(x) }
-  s.add_dependency('nokogiri', '>= 1.5.6')
+  s.add_dependency('httparty', '>= 0.10.2')
+  s.add_dependency('hashie', '>= 2.0.0')
 end

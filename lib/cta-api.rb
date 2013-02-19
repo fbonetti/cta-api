@@ -21,7 +21,7 @@ module CTA
     include HTTParty
     base_uri 'http://www.ctabustracker.com/bustime/api/v1'
     format :xml
-    @@key = 'bDTQbLvPF7zPmJWqsQvAj85aU'
+    @@key = nil
 
     def self.time(options={})
       options.merge!({
@@ -38,6 +38,8 @@ module CTA
       options.merge!({
         :key => @@key
       })
+      options[:vid] = options[:vid].join(',') if options[:vid].kind_of?(Array)
+      options[:rt] = options[:rt].join(',') if options[:rt].kind_of?(Array)
 
       response = get("/getvehicles", :query => options)['bustime_response']
       check_for_errors response['error']
@@ -87,6 +89,7 @@ module CTA
       options.merge!({
         :key => @@key
       })
+      options['pid'] = options['pid'].join(',') if options['pid'].kind_of?(Array)
 
       response = get("/getpatterns", :query => options)['bustime_response']
       check_for_errors response['error']
@@ -99,6 +102,9 @@ module CTA
       options.merge!({
         :key => @@key
       })
+      options['stpid'] = options['stpid'].join(',') if options['stpid'].kind_of?(Array)
+      options['rt'] = options['rt'].join(',') if options['rt'].kind_of?(Array)
+      options['vid'] = options['vid'].join(',') if options['vid'].kind_of?(Array)
 
       response = get("/getpredictions", :query => options)['bustime_response']
       check_for_errors response['error']
@@ -111,6 +117,8 @@ module CTA
       options.merge!({
         :key => @@key
       })
+      options['rt'] = options['rt'].join(',') if options['rt'].kind_of?(Array)
+      options['stpid'] = options['stpid'].join(',') if options['stpid'].kind_of?(Array)
 
       response = get("/getservicebulletins", :query => options)['bustime_response']
       check_for_errors response['error']
@@ -138,7 +146,7 @@ module CTA
     include HTTParty
     base_uri 'http://lapi.transitchicago.com/api/1.0'
     format :xml
-    @@key = '79e4d3a3bed849ae8671472ad1612e92'
+    @@key = nil
 
     def self.arrivals(options={})
       options.merge!({
@@ -169,11 +177,7 @@ module CTA
       end
       stop_data
     end
-
-    def self.response
-      @@response
-    end
-
+    
     def self.key
       @@key
     end

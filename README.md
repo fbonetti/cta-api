@@ -21,30 +21,30 @@ This gem allows you to access the Chicago Transit Authority API via Ruby. You ca
 require 'cta-api'
 
 key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
-@tracker = CTA::TrainTracker.new(key)
+CTA::BusTracker.key = key
 ```
 
 ### Find Routes and Stops
 
 ``` ruby
 # list all available routes
-@tracker.routes
+CTA::BusTracker.routes
 
 # gets the available directions for the specified route (north, south, etc.)
-@tracker.route_directions("50")
+CTA::BusTracker.directions :rt => 50
 
 # list all stops that belong to a particular route
-@tracker.stops("50", :north)
+CTA::BusTracker.stops :rt => 50, :north
 ```
 
 ### Find Vehicles
 
 ``` ruby
 # returns an array of vehicles that travel the given routes
-@tracker.vehicles_by_routes(["50", "52A"])
+CTA::BusTracker.vehicles :rt => 50
 
 # returns an array of vehicles with the given vehicle ids
-@tracker.vehicles_by_ids(["1782", "1419", "1773"])
+CTA::BusTracker.vehicles :vid => ["1782", "1419", "1773"]
 ```
 
 ### Get Predicted Arrival Times
@@ -52,15 +52,15 @@ key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
 ``` ruby
 # get arrival times for a list of stop ids
 # note that the second argument is optional
-@tracker.predictions_by_stop_ids(["8751", "8752"], "50")
+CTA::BusTracker.predictions :rt => 50, :stpid => 8923
 
 # get arrival times for a list of vehicle ids
-@tracker.predictions_by_vehicle_ids(["1782", "1419", "1773"])
+CTA::BusTracker.predictions :vid => ["1782", "1419", "1773"]
 ```
 
 ### Get System Time
 ``` ruby
-@tracker.time
+CTA::BusTracker.time
 ```
 
 ## Train Tracker
@@ -71,21 +71,21 @@ key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
 require 'cta-api'
 
 key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-tracker = CTA::TrainTracker.new(key)
+CTA::TrainTracker.key = key
 ```
 
 ### Get a List of Stops and Stations
 
 ``` ruby
 # stops
-@tracker.stops
+CTA::TrainTracker.stops
 
 # stations
-@tracker.stations
+CTA::TrainTracker.stations
 ```
 
 ### Get Predicted Arrival Times
 
 ``` ruby
-@tracker.arrivals stop_id: "30106"
+CTA::TrainTracker.arrivals :stpid => "30106"
 ```

@@ -51,8 +51,8 @@ CTA::BusTracker.vehicles :vid => ["1782", "1419", "1773"]
 
 ``` ruby
 # get arrival times for a list of stop ids
-# note that the second argument is optional
-CTA::BusTracker.predictions :rt => 50, :stpid => 8923
+# note that the rt parameter is optional
+CTA::BusTracker.predictions :stpid => 8923, :rt => 50
 
 # get arrival times for a list of vehicle ids
 CTA::BusTracker.predictions :vid => ["1782", "1419", "1773"]

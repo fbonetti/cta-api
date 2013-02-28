@@ -34,7 +34,7 @@ CTA::BusTracker.routes
 CTA::BusTracker.directions :rt => 50
 
 # list all stops that belong to a particular route
-CTA::BusTracker.stops :rt => 50, :north
+CTA::BusTracker.stops :rt => 50, :dir => :north
 ```
 
 ### Find Vehicles

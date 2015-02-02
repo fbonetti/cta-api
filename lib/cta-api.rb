@@ -160,6 +160,31 @@ module CTA
       results.map { |result| Hashie::Mash.new result } unless results.nil?
     end
 
+    def self.follow(options={})
+      options.merge!({
+        :key => @@key
+      })
+
+      response = get("/ttfollow.aspx", :query => options)['ctatt']
+      check_for_errors response
+
+      etas = Array.wrap response['eta']
+      etas = etas.map { |eta| Hashie::Mash.new eta } unless etas.nil?
+      Hashie::Mash.new({ :eta => etas, :position => Hashie::Mash.new(response['position']) })
+    end
+
+    def self.locations(options={})
+      options.merge!({
+        :key => @@key
+      })
+
+      response = get("/ttpositions.aspx", :query => options)['ctatt']
+      check_for_errors response
+
+      results = Array.wrap response['route']
+      results.map { |result| Hashie::Mash.new result } unless results.nil?
+    end
+
     def self.stops
       stops = stop_table.map { |stop| [stop['STOP_ID'], stop['STOP_NAME']] }.flatten
       Hash[*stops]
@@ -177,7 +202,7 @@ module CTA
       end
       stop_data
     end
-    
+
     def self.key
       @@key
     end

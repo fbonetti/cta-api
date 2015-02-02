@@ -89,3 +89,15 @@ CTA::TrainTracker.stations
 ``` ruby
 CTA::TrainTracker.arrivals :stpid => "30106"
 ```
+
+### Get Train Locations
+
+``` ruby
+CTA::TrainTracker.locations :rt => 'y,blue,g'
+```
+
+### Follow a train
+
+``` ruby
+CTA::TrainTracker.follow :runnumber => 219
+```

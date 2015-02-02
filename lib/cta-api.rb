@@ -182,7 +182,12 @@ module CTA
       check_for_errors response
 
       results = Array.wrap response['route']
-      results.map { |result| Hashie::Mash.new result } unless results.nil?
+      h = results.inject({}) do |hash,route|
+        hash[route.delete('name')] = Hashie::Mash.new(route)
+        hash
+      end
+
+      Hashie::Mash.new(h)
     end
 
     def self.stops

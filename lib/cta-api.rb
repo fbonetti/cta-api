@@ -17,6 +17,27 @@ class Array
 end
 
 module CTA
+  class Shared
+    def self.stops
+      stops = stop_table.map { |stop| [stop['STOP_ID'], stop['STOP_NAME']] }.flatten
+      Hash[*stops]
+    end
+
+    def self.stations
+      stations = stop_table.map { |stop| [stop['STATION_NAME'], stop['STATION_DESCRIPTIVE_NAME']] }.flatten
+      Hash[*stations]
+    end
+
+    def self.stop_table
+      stop_data = []
+      CSV.read(File.dirname(__FILE__) + "/cta_L_stops.csv").each_with_index do |line, index|
+        index == 0 ? @headers = line : stop_data << Hash[ @headers.zip line ]
+      end
+      stop_data
+    end
+
+  end
+
   class BusTracker
     include HTTParty
     base_uri 'http://www.ctabustracker.com/bustime/api/v1'
@@ -142,7 +163,7 @@ module CTA
     end
   end
 
-  class TrainTracker
+  class TrainTracker < Shared
     include HTTParty
     base_uri 'http://lapi.transitchicago.com/api/1.0'
     format :xml
@@ -160,24 +181,6 @@ module CTA
       results.map { |result| Hashie::Mash.new result } unless results.nil?
     end
 
-    def self.stops
-      stops = stop_table.map { |stop| [stop['STOP_ID'], stop['STOP_NAME']] }.flatten
-      Hash[*stops]
-    end
-
-    def self.stations
-      stations = stop_table.map { |stop| [stop['PARENT_STOP_ID'], stop['STATION_DESCRIPTIVE_NAME']] }.flatten
-      Hash[*stations]
-    end
-
-    def self.stop_table
-      stop_data = []
-      CSV.read(File.dirname(__FILE__) + "/cta_L_stops.csv").each_with_index do |line, index|
-        index == 0 ? @headers = line : stop_data << Hash[ @headers.zip line ]
-      end
-      stop_data
-    end
-    
     def self.key
       @@key
     end
@@ -190,6 +193,53 @@ module CTA
 
     def self.check_for_errors(error)
       puts "API ERROR: #{error['errNm']}. Error code: #{error['errCd']}" if error['errCd'] != "0"
+    end
+  end
+
+  class CustomerAlerts < Shared
+    include HTTParty
+    base_uri 'http://www.transitchicago.com/api/1.0'
+    format :xml
+
+    def self.routes(options={})
+      response = get("/routes.aspx", :query => options)["CTARoutes"]
+      check_for_errors response
+
+      results = Array.wrap response["RouteInfo"]
+      results.map { |result| Hashie::Mash.new result } unless results.nil?
+    end
+
+    def self.alerts(options={})
+      response = get("/alerts.aspx", :query => options)["CTAAlerts"]
+      check_for_errors response
+
+      results = Array.wrap response["Alert"]
+      results.map { |result| Hashie::Mash.new result } unless results.nil?
+    end
+
+    def self.routes_table
+      route_data = []
+      CSV.read(File.dirname(__FILE__) + "/cta_routes.csv").each_with_index do |line, index|
+        index == 0 ? @headers = line : route_data << Hash[ @headers.zip line ]
+      end
+      route_data
+    end
+
+    def self.train_routes
+      routes_table.select { |r| r["route_type"] == "1" }
+    end
+
+    def self.bus_routes
+      routes_table.select { |r| r["route_type"] == "3" }
+    end
+
+    private
+
+    def self.check_for_errors(error)
+      error_code = error['ErrorCode']
+      if !error_code.nil? && error_code != "0"
+        puts "API ERROR: #{error['ErrorMessage']}. Error code: #{error['ErrorCode']}"
+      end
     end
   end
 end

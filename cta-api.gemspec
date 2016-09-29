@@ -16,4 +16,6 @@ Gem::Specification.new do |s|
   s.files = Dir.glob("**/*").reject { |x| File.directory?(x) }
   s.add_dependency('httparty', '>= 0.10.2')
   s.add_dependency('hashie', '>= 2.0.0')
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "pry"
 end
